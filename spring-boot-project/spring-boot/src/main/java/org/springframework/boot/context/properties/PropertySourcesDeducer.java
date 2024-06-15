@@ -43,6 +43,11 @@ class PropertySourcesDeducer {
 		this.applicationContext = applicationContext;
 	}
 
+	/**
+	 * 获取属性源
+	 *
+	 * @return {@link PropertySources }
+	 */
 	public PropertySources getPropertySources() {
 		PropertySourcesPlaceholderConfigurer configurer = getSinglePropertySourcesPlaceholderConfigurer();
 		if (configurer != null) {
@@ -64,6 +69,13 @@ class PropertySourcesDeducer {
 		return null;
 	}
 
+	/**
+	 * 获取单个属性源占位符配置器
+	 *
+	 *
+	 * @return {@link PropertySourcesPlaceholderConfigurer }
+	 *
+	 */
 	private PropertySourcesPlaceholderConfigurer getSinglePropertySourcesPlaceholderConfigurer() {
 		// Take care not to cause early instantiation of all FactoryBeans
 		Map<String, PropertySourcesPlaceholderConfigurer> beans = this.applicationContext

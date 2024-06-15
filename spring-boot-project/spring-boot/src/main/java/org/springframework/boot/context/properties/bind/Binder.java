@@ -203,6 +203,17 @@ public class Binder {
 		return BindResult.of(bound);
 	}
 
+	/**
+	 * 绑定
+	 *
+	 * @param name 名称（prefix）
+	 * @param target 目标
+	 * @param handler 处理程序
+	 * @param context 上下文
+	 * @param allowRecursiveBinding 允许递归绑定
+	 * @return {@link T }
+	 *
+	 */
 	protected final <T> T bind(ConfigurationPropertyName name, Bindable<T> target, BindHandler handler, Context context,
 			boolean allowRecursiveBinding) {
 		context.clearConfigurationProperty();
@@ -297,6 +308,7 @@ public class Binder {
 		if (name.isEmpty()) {
 			return null;
 		}
+		//SpringIterableConfigurationPropertySource ：解析 application.yml 、properties 配置
 		for (ConfigurationPropertySource source : context.getSources()) {
 			ConfigurationProperty property = source.getConfigurationProperty(name);
 			if (property != null) {

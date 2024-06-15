@@ -62,6 +62,12 @@ class ConfigurationPropertiesBinder {
 
 	private volatile Binder binder;
 
+	/**
+	 * 配置属性绑定器
+	 *
+	 * @param applicationContext 应用程序上下文
+	 * @param validatorBeanName 验证器bean名称
+	 */
 	ConfigurationPropertiesBinder(ApplicationContext applicationContext, String validatorBeanName) {
 		this.applicationContext = applicationContext;
 		this.propertySources = new PropertySourcesDeducer(applicationContext).getPropertySources();
@@ -75,6 +81,8 @@ class ConfigurationPropertiesBinder {
 		Assert.state(annotation != null, () -> "Missing @ConfigurationProperties on " + target);
 		List<Validator> validators = getValidators(target);
 		BindHandler bindHandler = getBindHandler(annotation, validators);
+
+		//绑定
 		getBinder().bind(annotation.prefix(), target, bindHandler);
 	}
 

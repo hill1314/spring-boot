@@ -194,6 +194,7 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 	}
 
 	/**
+	 * 将配置文件属性源添加到指定环境
 	 * Add config file property sources to the specified environment.
 	 * @param environment the environment to add source to
 	 * @param resourceLoader the resource loader
@@ -424,6 +425,7 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 			getSearchLocations().forEach((location) -> {
 				boolean isFolder = location.endsWith("/");
 				Set<String> names = isFolder ? getSearchNames() : NO_SEARCH_NAMES;
+				//遍历解析配置文件
 				names.forEach((name) -> load(location, name, profile, filterFactory, consumer));
 			});
 		}
@@ -454,6 +456,18 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 					.anyMatch((fileExtension) -> StringUtils.endsWithIgnoreCase(name, fileExtension));
 		}
 
+		/**
+		 * 加载文件扩展名
+		 *
+		 * @param loader 装载机
+		 * @param prefix 前缀
+		 * @param fileExtension 文件扩展名
+		 * @param profile 轮廓
+		 * @param filterFactory 过滤器工厂
+		 * @param consumer 消费者
+		 *
+		 *
+		 */
 		private void loadForFileExtension(PropertySourceLoader loader, String prefix, String fileExtension,
 				Profile profile, DocumentFilterFactory filterFactory, DocumentConsumer consumer) {
 			DocumentFilter defaultFilter = filterFactory.getDocumentFilter(null);
@@ -475,6 +489,17 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 			load(loader, prefix + fileExtension, profile, profileFilter, consumer);
 		}
 
+		/**
+		 * 加载配置文件
+		 *
+		 * @param loader 装载机
+		 * @param location 地方
+		 * @param profile 轮廓
+		 * @param filter 滤器
+		 * @param consumer 消费者
+		 *
+		 *
+		 */
 		private void load(PropertySourceLoader loader, String location, Profile profile, DocumentFilter filter,
 				DocumentConsumer consumer) {
 			try {
@@ -536,6 +561,15 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 			this.profiles.addAll(existingProfiles);
 		}
 
+		/**
+		 * 加配置文件
+		 *
+		 * @param loader 装载机
+		 * @param name 名称
+		 * @param resource 资源
+		 * @return {@link List }<{@link Document }>
+		 * @throws IOException IOException
+		 */
 		private List<Document> loadDocuments(PropertySourceLoader loader, String name, Resource resource)
 				throws IOException {
 			DocumentsCacheKey cacheKey = new DocumentsCacheKey(loader, resource);
@@ -631,6 +665,13 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 			return locations;
 		}
 
+		/**
+		 * 获取配置文件名称
+		 *
+		 *
+		 * @return {@link Set }<{@link String }>
+		 *
+		 */
 		private Set<String> getSearchNames() {
 			if (this.environment.containsProperty(CONFIG_NAME_PROPERTY)) {
 				String property = this.environment.getProperty(CONFIG_NAME_PROPERTY);
